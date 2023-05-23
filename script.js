@@ -1,31 +1,36 @@
-function threeSum(S, target) {
-// write your code here
-	 S.sort((a, b) => a - b);
+function threeSum(nums, target) {
+  // Sort the array in ascending order
+  nums.sort((a, b) => a - b);
 
-  // Initialize the minimum difference to infinity.
-  let minDiff = Infinity;
-  let minSum = 0;
+  let closestSum = Infinity;
 
-  // Iterate over all pairs of elements in the array.
-  for (let i = 0; i < S.length - 2; i++) {
-    for (let j = i + 1; j < S.length - 1; j++) {
-      // Find the third element that makes the sum closest to the target.
-      let k = S.indexOf(target - S[i] - S[j]);
+  for (let i = 0; i < nums.length - 2; i++) {
+    let left = i + 1;
+    let right = nums.length - 1;
 
-      // If the third element is found, update the minimum difference and minimum sum.
-      if (k >= 0) {
-        let diff = Math.abs(target - S[i] - S[j] - S[k]);
-        if (diff < minDiff) {
-          minDiff = diff;
-          minSum = S[i] + S[j] + S[k];
-        }
+    while (left < right) {
+      const sum = nums[i] + nums[left] + nums[right];
+
+      if (sum === target) {
+        // If the sum is equal to the target, return the sum
+        return sum;
+      }
+
+      // Update the closestSum if the current sum is closer to the target
+      if (Math.abs(sum - target) < Math.abs(closestSum - target)) {
+        closestSum = sum;
+      }
+
+      if (sum < target) {
+        left++; // Increment left pointer for a larger element
+      } else {
+        right--; // Decrement right pointer for a smaller element
       }
     }
   }
 
-  // Return the minimum sum.
-  return minSum;
-  
+  return closestSum;
 }
+
 
 module.exports = threeSum;
